@@ -6,6 +6,83 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
-    <form name="email" action="mail.php" method="get"></form>
+    <table style="width:100%"> <form>
+        <tr><td>
+            <label for="fname"> <strong>First Name:*</strong></label><br>
+            <input type="text" id="fname" name="fname" required></td>
+        <td><label for="surname"><strong>Surname:*</strong></label><br>
+            <input type="text" id="surname" name="surname" required>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="age" name="age" required><strong>Your age:*</strong></label><br>
+                <input type="number" id="age">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            <label for="url"><strong> Your github account:*</strong></label><br>
+            <input type="url" id="url" size=""><br>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="">
+            <label for="radio"><strong>What's your degree?*</strong></label><br>
+            <input type="radio" value="Bachelors">Bachelors<br>
+            <input type="radio" value="Masters">Masters<br>
+            <input type="radio" value="PhD">PhD<br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="combobox"><strong> Select your living area:*</strong></label><br>
+            <select name="Countries">
+                <option>Australia</option>
+                <option>Austria</option>
+                <option>Albania</option>
+                <option>Andorra</option>
+                <option>Argentina</option>
+                <option>Armenia</option>
+                <option>Azerbaijan</option>
+                <option>The Bahamas</option>
+                <option>Bahrain</option>
+                <option>Bangladesh</option>
+                <option>Barbados</option>
+                <option>Belarus</option>
+                <option>Belgium</option>
+                <option>Belize</option>
+                <option>Benin</option>
+                <option>Bhutan</option>
+                <option>Bolivia</option>
+                <option>Bosnia and Herzegovina</option>
+                <option>Botswana</option>
+                <option>Brazil</option>
+                <option>Brunei</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="textarea"><strong>Tell us about your interests:*</strong></label><br>
+            <textarea name="interests" rows="3" cols=55></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="checkbox" name="agreement" id="agreement" required>
+            <label for="agreement"> I agree with the policy statements of the website</label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" value="Submit">
+        </td>
+        <td>
+            <input type="reset" value="Reset">
+        </td>
+    </tr>
+    </table></form>
+    </form>
 </body>
 </html>
