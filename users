@@ -206,16 +206,19 @@
                                                 echo "<td>" . $row["about"] . "</td>";
                                                 echo "<td>" . $row["telegram_id"] . "</td>";
                                                 echo "<td>" . $row["telegram_username"] . "</td>";
-                                                echo "<td class='actions-buttons'>";
-                                                echo "<button class='btn btn-warning btn-sm' data-toggle='modal' data-target='#editModal' data-id='" . $row["id"] . "'>Редактировать</button>";
-                                                echo "<a href='delete.php?id=" . $row["id"] . "' class='btn btn-danger btn-sm'>Удалить</a>";
-                                                echo "</td>";
+                                                echo "<td class='actions-buttons'>
+                                                    <button class='btn btn-warning btn-sm' data-toggle='modal' data-target='#editUserModal' data-id='" . $row["id"] . "' data-name='" . $row["first_name"] . "' data-phone='" . $row["phone_number"] . "' data-marital='" . $row["marital_status"] . "' data-age='" . $row["age"] . "' data-children='" . $row["num_children"] . "' data-experience='" . $row["experience_years"] . "' data-car='" . $row["car"] . "' data-uae-license='" . $row["uae_driver_license"] . "' data-salary='" . $row["monthly_salary"] . "' data-hourly='" . $row["hourly_salary"] . "' data-about='" . $row["about"] . "' data-telegram-id='" . $row["telegram_id"] . "' data-telegram-username='" . $row["telegram_username"] . "'>
+                                                        <i class='fas fa-edit'></i>
+                                                    </button>
+                                                    <a href='delete_user.php?id=" . $row["id"] . "' class='btn btn-danger btn-sm'>
+                                                        <i class='fas fa-trash'></i>
+                                                    </a>
+                                                </td>";
                                                 echo "</tr>";
                                             }
                                         } else {
-                                            echo "<tr><td colspan='19'>Нет данных</td></tr>";
+                                            echo "<tr><td colspan='18'>Нет данных</td></tr>";
                                         }
-                                        $conn->close();
                                         ?>
                                     </tbody>
                                 </table>
@@ -224,108 +227,95 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="container my-auto">
-                    <div class="text-center my-auto">
-                        <span>Создано с &hearts; для вашего удобства</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-<!-- Modals -->
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+
+   <!-- Модальное окно редактирования -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Редактирование пользователя</h5>
+                <h5 class="modal-title" id="editUserModalLabel">Редактировать пользователя</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="editForm" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" id="editId">
+            <form id="editUserForm" action="update_user.php" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="editUserId">
                     <div class="form-group">
                         <label for="editFirstName">Имя</label>
-                        <input type="text" class="form-control" id="editFirstName" name="first_name">
+                        <input type="text" class="form-control" id="editFirstName" name="first_name" required>
                     </div>
                     <div class="form-group">
                         <label for="editLastName">Фамилия</label>
-                        <input type="text" class="form-control" id="editLastName" name="last_name">
+                        <input type="text" class="form-control" id="editLastName" name="last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="editAge">Возраст</label>
-                        <input type="number" class="form-control" id="editAge" name="age">
+                        <label for="editUserPhone">Телефон</label>
+                        <input type="text" class="form-control" id="editUserPhone" name="phone_number" required>
                     </div>
                     <div class="form-group">
-                        <label for="editMaritalStatus">Семейное положение</label>
-                        <input type="text" class="form-control" id="editMaritalStatus" name="marital_status">
+                        <label for="editUserMaritalStatus">Семейное положение</label>
+                        <input type="text" class="form-control" id="editUserMaritalStatus" name="marital_status" required>
                     </div>
                     <div class="form-group">
-                        <label for="editNumChildren">Количество детей</label>
-                        <input type="number" class="form-control" id="editNumChildren" name="num_children">
+                        <label for="editUserAge">Возраст</label>
+                        <input type="number" class="form-control" id="editUserAge" name="age" required>
                     </div>
                     <div class="form-group">
-                        <label for="editPhoneNumber">Телефон</label>
-                        <input type="text" class="form-control" id="editPhoneNumber" name="phone_number">
+                        <label for="editUserChildren">Количество детей</label>
+                        <input type="number" class="form-control" id="editUserChildren" name="num_children" required>
                     </div>
                     <div class="form-group">
-                        <label for="editPhoto">Фото</label>
-                        <input type="file" class="form-control-file" id="editPhoto" name="photo">
-                        <img id="editPhotoPreview" style="width: 100px; height: auto;" />
+                        <label for="editUserExperience">Стаж работы</label>
+                        <input type="number" class="form-control" id="editUserExperience" name="experience_years" required>
                     </div>
                     <div class="form-group">
-                        <label for="editExperienceYears">Стаж работы</label>
-                        <input type="number" class="form-control" id="editExperienceYears" name="experience_years">
+                        <label for="editUserAccommodation">Место жительства</label>
+                        <input type="text" class="form-control" id="editUserAccommodation" name="accommodation">
                     </div>
                     <div class="form-group">
-                        <label for="editAccommodation">Место жительства</label>
-                        <input type="text" class="form-control" id="editAccommodation" name="accommodation">
+                        <label for="editUserLanguages">Языки</label>
+                        <input type="text" class="form-control" id="editUserLanguages" name="languages">
                     </div>
                     <div class="form-group">
-                        <label for="editLanguages">Языки</label>
-                        <input type="text" class="form-control" id="editLanguages" name="languages">
+                        <label for="editUserCar">Автомобиль</label>
+                        <input type="text" class="form-control" id="editUserCar" name="car">
                     </div>
                     <div class="form-group">
-                        <label for="editUaeDriverLicense">Водительское удостоверение ОАЭ</label>
-                        <input type="text" class="form-control" id="editUaeDriverLicense" name="uae_driver_license">
+                        <label for="editUserUaeLicense">Водительское удостоверение ОАЭ</label>
+                        <input type="text" class="form-control" id="editUserUaeLicense" name="uae_driver_license">
                     </div>
                     <div class="form-group">
-                        <label for="editCar">Автомобиль</label>
-                        <input type="text" class="form-control" id="editCar" name="car">
+                        <label for="editUserSalary">Месячная зарплата</label>
+                        <input type="text" class="form-control" id="editUserSalary" name="monthly_salary">
                     </div>
                     <div class="form-group">
-                        <label for="editMonthlySalary">Месячная зарплата</label>
-                        <input type="text" class="form-control" id="editMonthlySalary" name="monthly_salary">
+                        <label for="editUserHourly">Часовая ставка</label>
+                        <input type="text" class="form-control" id="editUserHourly" name="hourly_salary">
                     </div>
                     <div class="form-group">
-                        <label for="editHourlySalary">Часовая ставка</label>
-                        <input type="text" class="form-control" id="editHourlySalary" name="hourly_salary">
+                        <label for="editUserAbout">Дополнительная информация</label>
+                        <textarea class="form-control" id="editUserAbout" name="about"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editAbout">Доп. информация</label>
-                        <textarea class="form-control" id="editAbout" name="about"></textarea>
+                        <label for="editUserTelegramId">Telegram ID</label>
+                        <input type="text" class="form-control" id="editUserTelegramId" name="telegram_id">
                     </div>
                     <div class="form-group">
-                        <label for="editTelegramId">Telegram ID</label>
-                        <input type="text" class="form-control" id="editTelegramId" name="telegram_id">
+                        <label for="editUserTelegramUsername">Имя пользователя в Telegram</label>
+                        <input type="text" class="form-control" id="editUserTelegramUsername" name="telegram_username">
                     </div>
-                    <div class="form-group">
-                        <label for="editTelegramUsername">Telegram Username</label>
-                        <input type="text" class="form-control" id="editTelegramUsername" name="telegram_username">
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-    <!-- JavaScript -->
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -335,41 +325,39 @@
     <script>
         $(document).ready(function() {
             $('#user-table').DataTable();
-        });
 
-        $('#applyFilterBtn').on('click', function() {
-            let name = $('#filterName').val();
-            let phone = $('#filterPhone').val();
-            let maritalStatus = $('#filterMaritalStatus').val();
-            let age = $('#filterAge').val();
-            let numChildren = $('#filterNumChildren').val();
-            let experienceYears = $('#filterExperienceYears').val();
-            let car = $('#filterCar').val();
-            let uaeDriverLicense = $('#filterUaeDriverLicense').val();
-            let monthlySalary = $('#filterMonthlySalary').val();
-            let hourlySalary = $('#filterHourlySalary').val();
-            
-            // AJAX запрос для применения фильтров
-            $.ajax({
-                url: 'filter.php',
-                method: 'GET',
-                data: {
-                    name: name,
-                    phone: phone,
-                    maritalStatus: maritalStatus,
-                    age: age,
-                    numChildren: numChildren,
-                    experienceYears: experienceYears,
-                    car: car,
-                    uaeDriverLicense: uaeDriverLicense,
-                    monthlySalary: monthlySalary,
-                    hourlySalary: hourlySalary
-                },
-                success: function(data) {
-                    $('#user-table').DataTable().clear().destroy();
-                    $('#user-table tbody').html(data);
-                    $('#user-table').DataTable();
-                }
+            $('#editUserModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var name = button.data('name');
+                var phone = button.data('phone');
+                var marital = button.data('marital');
+                var age = button.data('age');
+                var children = button.data('children');
+                var experience = button.data('experience');
+                var car = button.data('car');
+                var uae_license = button.data('uae_license');
+                var salary = button.data('salary');
+                var hourly = button.data('hourly');
+                var about = button.data('about');
+                var telegram_id = button.data('telegram_id');
+                var telegram_username = button.data('telegram_username');
+
+                var modal = $(this);
+                modal.find('#editUserId').val(id);
+                modal.find('#editUserName').val(name);
+                modal.find('#editUserPhone').val(phone);
+                modal.find('#editUserMaritalStatus').val(marital);
+                modal.find('#editUserAge').val(age);
+                modal.find('#editUserChildren').val(children);
+                modal.find('#editUserExperience').val(experience);
+                modal.find('#editUserCar').val(car);
+                modal.find('#editUserUaeLicense').val(uae_license);
+                modal.find('#editUserSalary').val(salary);
+                modal.find('#editUserHourly').val(hourly);
+                modal.find('#editUserAbout').val(about);
+                modal.find('#editUserTelegramId').val(telegram_id);
+                modal.find('#editUserTelegramUsername').val(telegram_username);
             });
         });
     </script>
