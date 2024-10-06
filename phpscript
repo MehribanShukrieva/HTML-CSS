@@ -1,0 +1,37 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Получение данных из формы
+    $name = htmlspecialchars(trim($_POST['name']));
+    $phone = htmlspecialchars(trim($_POST['phone']));
+    $email = htmlspecialchars(trim($_POST['email']));
+
+    // Валидация данных (например, проверка на пустые значения и формат email)
+    if (!empty($name) && !empty($phone) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        
+        // адрес, на который будут отправляться данные
+        $to = 'EMAIL@example.com'; // ЗАМЕНИТЕ НА ПОЧТУ КЛИЕНТА
+        
+        // Заголовки
+        $subject = 'Новая заявка с сайта';
+        $headers = "From: $name <$email>\r\n";
+        $headers .= "Reply-To: $email\r\n";
+        $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+        // Формирование сообщения
+        $message = "Имя: $name\n";
+        $message .= "Телефон: $phone\n";
+        $message .= "Email: $email\n";
+
+        // Отправка почты
+        if (mail($to, $subject, $message, $headers)) {
+            echo "Данные успешно отправлены!";
+        } else {
+            echo "Ошибка при отправке данных. Пожалуйста, попробуйте еще раз.";
+        }
+    } else {
+        echo "Пожалуйста, проверьте введенные данные.";
+    }
+} else {
+    echo "Ошибка: Неверный метод отправки!";
+}
+?>
