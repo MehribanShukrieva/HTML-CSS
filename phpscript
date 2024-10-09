@@ -1,32 +1,45 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Получение данных из формы
     $name = htmlspecialchars(trim($_POST['name']));
     $phone = htmlspecialchars(trim($_POST['phone']));
     $email = htmlspecialchars(trim($_POST['email']));
 
-    // Валидация данных (например, проверка на пустые значения и формат email)
     if (!empty($name) && !empty($phone) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         
-        // адрес, на который будут отправляться данные
-        $to = 'EMAIL@example.com'; // ЗАМЕНИТЕ НА ПОЧТУ КЛИЕНТА
-        
-        // Заголовки
-        $subject = 'Новая заявка с сайта';
-        $headers = "From: $name <$email>\r\n";
-        $headers .= "Reply-To: $email\r\n";
-        $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+        // Telegram Bot API
+        $token = '';  //  токен бота
+        $chat_id = '';  // chat_id (число)
 
-        // Формирование сообщения
-        $message = "Имя: $name\n";
+        $message = "Новая заявка с сайта:\n";
+        $message .= "Имя: $name\n";
         $message .= "Телефон: $phone\n";
         $message .= "Email: $email\n";
 
-        // Отправка почты
-        if (mail($to, $subject, $message, $headers)) {
-            echo "Данные успешно отправлены!";
+        // URL для отправки сообщения
+        $telegram_url = "https://api.telegram.org/bot$token/sendMessage";
+
+        // Параметры запроса
+        $data = [
+            'chat_id' => $chat_id,
+            'text' => $message,
+            'parse_mode' => 'HTML'
+        ];
+
+        // Инициализация cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $telegram_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Выполнение запроса и получение результата
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        if ($result) {
+            echo "Данные успешно отправлены в Telegram!";
         } else {
-            echo "Ошибка при отправке данных. Пожалуйста, попробуйте еще раз.";
+            echo "Ошибка при отправке данных в Telegram. Пожалуйста, попробуйте еще раз.";
         }
     } else {
         echo "Пожалуйста, проверьте введенные данные.";
